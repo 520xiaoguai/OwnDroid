@@ -437,6 +437,8 @@
     <string name="clear_configurations">Clear configurations</string>
     <string name="specify_value">Specify value</string>
     <string name="package_removed">Removed %1$s</string>
+    <string name="modified">Modified</string>
+    <string name="unmodified">Unmodified</string>
 
     <!--UserRestriction-->
     <string name="user_restriction">User restriction</string>

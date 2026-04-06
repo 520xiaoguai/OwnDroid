@@ -75,6 +75,8 @@ java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 
 解决办法：使用 OwnDroid testkey 版本
 
+testkey版本和signed版本只是签名不同，在功能上没有区别。
+
 ### 三星
 
 ```text

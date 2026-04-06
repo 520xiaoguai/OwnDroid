@@ -77,6 +77,8 @@ java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 
 Solution: Use OwnDroid testkey version
 
+The testkey and signed versions differ only in their signatures. There is no functional difference between them.
+
 ### Samsung
 
 ```text

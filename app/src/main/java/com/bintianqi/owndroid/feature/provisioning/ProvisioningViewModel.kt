@@ -26,6 +26,10 @@ class ProvisioningViewModel : ViewModel() {
         intent.putExtra(
             DevicePolicyManager.EXTRA_PROVISIONING_SKIP_ENCRYPTION, options.skipEncryption
         )
+        intent.putExtra(
+            DevicePolicyManager.EXTRA_PROVISIONING_MODE,
+            DevicePolicyManager.PROVISIONING_MODE_FULLY_MANAGED_DEVICE
+        )
         return intent
     }
 }

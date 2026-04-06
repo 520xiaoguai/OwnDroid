@@ -31,6 +31,10 @@ class WorkingModesViewModel(
     val ps: MutableStateFlow<PrivilegeStatus>, val toastChannel: ToastChannel
 ) : ViewModel() {
 
+    fun getPrivilegeState() = ph.safeDpmCall {
+        ps.value = getPrivilegeStatus(dpm, dar, ph.dhizuku)
+    }
+
     @RequiresApi(24)
     fun isCreatingWorkProfileAllowed(): Boolean {
         return ph.myDpm.isProvisioningAllowed(DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE)
@@ -148,8 +152,8 @@ class WorkingModesViewModel(
         updateStatus()
     }
 
-    private fun updateStatus() {
-        ps.value = getPrivilegeStatus(ph)
+    private fun updateStatus() = ph.safeDpmCall {
+        ps.value = getPrivilegeStatus(dpm, dar, ph.dhizuku)
         handlePrivilegeChange(application, ps.value, ph, sr)
     }
 }

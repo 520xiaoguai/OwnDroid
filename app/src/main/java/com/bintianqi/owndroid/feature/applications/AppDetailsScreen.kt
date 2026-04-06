@@ -67,7 +67,8 @@ fun ApplicationDetailsScreen(
             )
         }
         FunctionItem(R.string.permissions, icon = R.drawable.shield_fill0) {
-            onNavigate(Destination.AppPermissionsManager(vm.packageName))
+            vm.getPermissions()
+            onNavigate(Destination.AppPermissionsManager)
         }
         if (VERSION.SDK_INT >= 24) SwitchItem(
             R.string.suspend, uiState.suspend, vm::setSuspended, R.drawable.block_fill0

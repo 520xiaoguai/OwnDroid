@@ -10,13 +10,14 @@ class CrossProfileIntentFilterRepository(val dbHelper: MyDbHelper) {
         cv.put("category", data.category)
         cv.put("mime_type", data.mimeType)
         cv.put("direction", data.direction)
+        cv.put("time", System.currentTimeMillis());
         dbHelper.writableDatabase.insert("cross_profile_intent_filters", null, cv)
     }
 
     fun getAllCrossProfileIntentFilters(): List<IntentFilterOptions> {
         val list = mutableListOf<IntentFilterOptions>()
         dbHelper.readableDatabase.rawQuery(
-            "SELECT * FROM cross_profile_intent_filters", null
+            "SELECT * FROM cross_profile_intent_filters ORDER BY time DESC", null
         ).use {
             while (it.moveToNext()) {
                 list += IntentFilterOptions(

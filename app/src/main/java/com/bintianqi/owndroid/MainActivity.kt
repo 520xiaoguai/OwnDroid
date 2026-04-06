@@ -12,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -151,12 +152,19 @@ class MainActivity : FragmentActivity() {
                         lifecycleOwner.lifecycle.removeObserver(observer)
                     }
                 }
-                if (dhizukuError != null) DhizukuErrorDialog(dhizukuError!!) {
-                    myApp.container.dhizukuErrorState.value = null
-                    /*backstack += Destination.WorkingModes(false)
-                    repeat(backstack.size - 1) {
-                        backstack.removeFirstOrNull()
-                    }*/
+                if (dhizukuError != null) {
+                    DhizukuErrorDialog(
+                        dhizukuError!!, {
+                            myApp.container.dhizukuErrorState.value = null
+                        }, {
+                            myApp.container.dhizukuErrorState.value = null
+                            settingsRepo.update { it.privilege.dhizuku = false }
+                            backstack += Destination.WorkingModes(false)
+                            repeat(backstack.size - 1) {
+                                backstack.removeFirstOrNull()
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -164,15 +172,20 @@ class MainActivity : FragmentActivity() {
 }
 
 @Composable
-private fun DhizukuErrorDialog(error: DhizukuError, onClose: () -> Unit) {
+private fun DhizukuErrorDialog(error: DhizukuError, onClose: () -> Unit, onDisable: () -> Unit) {
     AlertDialog(
         onDismissRequest = {},
         confirmButton = {
+            Button(onDisable) {
+                Text(stringResource(R.string.disable))
+            }
+        },
+        dismissButton = {
             TextButton(onClose) {
                 Text(stringResource(R.string.confirm))
             }
         },
-        title = { Text(stringResource(R.string.dhizuku)) },
+        title = { Text(stringResource(R.string.error)) },
         text = {
             val text = stringResource(
                 when (error) {

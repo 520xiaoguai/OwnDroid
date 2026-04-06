@@ -2,6 +2,7 @@ package com.bintianqi.owndroid
 
 import android.app.Application
 import android.os.Build.VERSION
+import com.bintianqi.owndroid.utils.DhizukuException
 import com.bintianqi.owndroid.utils.NotificationUtils
 import com.bintianqi.owndroid.utils.getPrivilegeStatus
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -13,7 +14,19 @@ class MyApplication : Application() {
         super.onCreate()
         if (VERSION.SDK_INT >= 28) HiddenApiBypass.setHiddenApiExemptions("")
         container = AppContainer(this)
-        container.privilegeState.value = getPrivilegeStatus(container.privilegeHelper)
+        val ph = container.privilegeHelper
+        val ps = container.privilegeState
+        try {
+            ps.value = getPrivilegeStatus(ph.dpm, ph.dar, ph.dhizuku)
+        } catch (e: DhizukuException) {
+            ps.value = getPrivilegeStatus(ph.myDpm, ph.myDar, false)
+            if (ps.value.activated) { // Device owner transferred from Dhizuku
+                container.settingsRepo.update { it.privilege.dhizuku = false }
+                ph.dhizuku = false
+            } else {
+                container.dhizukuErrorState.value = e.reason
+            }
+        }
         NotificationUtils.createChannels(this)
     }
 }

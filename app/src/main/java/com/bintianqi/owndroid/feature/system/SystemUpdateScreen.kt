@@ -57,7 +57,7 @@ fun SystemUpdateScreen(
         vm.getPolicy()
         if (VERSION.SDK_INT >= 26) vm.getPendingUpdate()
     }
-    MySmallTitleScaffold(R.string.system_update_policy, onNavigateUp, 0.dp) {
+    MySmallTitleScaffold(R.string.system_update, onNavigateUp, 0.dp) {
         Text(
             stringResource(R.string.system_update_policy),
             Modifier.padding(start = HorizontalPadding, top = 8.dp),

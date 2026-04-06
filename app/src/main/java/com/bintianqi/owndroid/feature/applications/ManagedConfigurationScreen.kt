@@ -1,7 +1,9 @@
 package com.bintianqi.owndroid.feature.applications
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,15 +18,20 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -74,12 +81,13 @@ fun ManagedConfigurationScreen(
     val restrictions by vm.restrictionsState.collectAsStateWithLifecycle()
     var searchMode by rememberSaveable { mutableStateOf(false) }
     var searchKeyword by rememberSaveable { mutableStateOf("") }
-    val displayRestrictions = if (!searchMode || searchKeyword.isBlank()) {
-        restrictions
-    } else {
-        restrictions.filter {
-            searchInString(searchKeyword, it.key) || it.title?.contains(searchKeyword, true) ?: true
-        }
+    var showModified by rememberSaveable { mutableStateOf(true) }
+    var showUnmodified by rememberSaveable { mutableStateOf(true) }
+    val displayRestrictions = restrictions.filter {
+        (showModified && !it.isNull()) || (showUnmodified && it.isNull()) &&
+                (!searchMode || searchKeyword.isBlank() ||
+                        searchInString(searchKeyword, it.key) ||
+                        it.title?.contains(searchKeyword, true) ?: true)
     }
     var dialog by remember { mutableStateOf<AppRestriction?>(null) }
     var clearRestrictionDialog by remember { mutableStateOf(false) }
@@ -121,10 +129,34 @@ fun ManagedConfigurationScreen(
                         }) {
                             Icon(Icons.Outlined.Search, null)
                         }
+                    }
+                    Box {
+                        var dropdownMenu by remember { mutableStateOf(false) }
                         IconButton({
-                            clearRestrictionDialog = true
+                            dropdownMenu = true
                         }) {
-                            Icon(Icons.Outlined.Delete, null)
+                            Icon(Icons.Default.MoreVert, null)
+                        }
+                        DropdownMenu(dropdownMenu, { dropdownMenu = false }) {
+                            DropdownMenuItem(
+                                { Text(stringResource(R.string.modified)) },
+                                { showModified = !showModified },
+                                leadingIcon = { Checkbox(showModified, null) }
+                            )
+                            DropdownMenuItem(
+                                { Text(stringResource(R.string.unmodified)) },
+                                { showUnmodified = !showUnmodified },
+                                leadingIcon = { Checkbox(showUnmodified, null) }
+                            )
+                            HorizontalDivider()
+                            DropdownMenuItem(
+                                { Text(stringResource(R.string.clear)) },
+                                {
+                                    clearRestrictionDialog = true
+                                    dropdownMenu = false
+                                },
+                                leadingIcon = { Icon(Icons.Outlined.Delete, null) }
+                            )
                         }
                     }
                 }
@@ -140,6 +172,10 @@ fun ManagedConfigurationScreen(
                         .clickable {
                             dialog = entry
                         }
+                        .background(
+                            if (entry.isNull()) MaterialTheme.colorScheme.background
+                            else MaterialTheme.colorScheme.surfaceVariant
+                        )
                         .padding(HorizontalPadding, 8.dp)
                         .animateItem(),
                     verticalAlignment = Alignment.CenterVertically

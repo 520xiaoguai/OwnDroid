@@ -36,8 +36,7 @@ sealed class Destination : NavKey {
     @Serializable object DisableAccountManagement : Destination()
     @Serializable object FrpPolicy : Destination()
     @Serializable object WipeData : Destination()
-    @Serializable object SystemUpdatePolicy : Destination()
-    @Serializable object InstallSystemUpdate : Destination()
+    @Serializable object SystemUpdate : Destination()
 
     @Serializable object Network : Destination()
     @Serializable object NetworkOptions : Destination()
@@ -61,6 +60,7 @@ sealed class Destination : NavKey {
     @Serializable object SuspendPersonalApp : Destination()
     @Serializable object CrossProfileIntentFilter : Destination()
     @Serializable object CrossProfileIntentFilterPresets: Destination()
+    @Serializable object CrossProfileIntentFilterHistory: Destination()
     @Serializable object DeleteWorkProfile : Destination()
 
     @Serializable object ApplicationFeatures : Destination()
@@ -86,15 +86,15 @@ sealed class Destination : NavKey {
     @Serializable object EditAppGroup : Destination()
 
     @Serializable class ApplicationDetails(val packageName: String) : Destination()
-    @Serializable class AppPermissionsManager(val packageName: String) : Destination()
+    @Serializable object AppPermissionsManager : Destination()
     @Serializable class ManagedConfiguration(val packageName: String) : Destination()
 
-    @Serializable data class ApplicationsList(
+    @Serializable class ApplicationsList(
         val canSwitchView: Boolean, val multiSelect: Boolean
     ) : Destination()
 
     @Serializable object UserRestriction : Destination()
-    @Serializable data class UserRestrictionOptions(val id: String) : Destination()
+    @Serializable class UserRestrictionOptions(val id: String) : Destination()
     @Serializable object UserRestrictionEditor : Destination()
 
     @Serializable object Users : Destination()

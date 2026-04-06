@@ -167,13 +167,8 @@ fun SystemScreen(
             onNavigate(Destination.DisableAccountManagement)
         }
         if (privilege.device || privilege.org) {
-            FunctionItem(R.string.system_update_policy, icon = R.drawable.system_update_fill0) {
-                onNavigate(Destination.SystemUpdatePolicy)
-            }
-        }
-        if (VERSION.SDK_INT >= 29 && (privilege.device || privilege.org)) {
-            FunctionItem(R.string.install_system_update, icon = R.drawable.system_update_fill0) {
-                onNavigate(Destination.InstallSystemUpdate)
+            FunctionItem(R.string.system_update, icon = R.drawable.system_update_fill0) {
+                onNavigate(Destination.SystemUpdate)
             }
         }
         if (VERSION.SDK_INT >= 30 && (privilege.device || privilege.org)) {

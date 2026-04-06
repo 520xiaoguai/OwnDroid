@@ -73,13 +73,14 @@ class SharedViewModelStoreNavEntryDecorator<T : Any>(
         }),
         decorate = { entry ->
             LaunchedEffect(Unit) {
-                Log.d(TAG, "Decorating entry, key: ${entry.contentKey}, metadata: ${entry.metadata}")
+                Log.d(
+                    TAG, "Decorating entry, key: ${entry.contentKey}, metadata: ${entry.metadata}"
+                )
             }
             // If the entry indicates it has a parent, use its parent's ViewModelStore.
-            val contentKey = entry.metadata[PARENT_CONTENT_KEY] ?: entry.contentKey
-            val viewModelStore =
-                viewModelStore.getEntryViewModel().viewModelStoreForKey(contentKey.toString())
-
+            val parentKey = entry.metadata[PARENT_CONTENT_KEY] as String?
+            val contentKey = parentKey ?: (entry.contentKey as String)
+            val viewModelStore = viewModelStore.getEntryViewModel().viewModelStoreForKey(contentKey)
             val savedStateRegistryOwner = LocalSavedStateRegistryOwner.current
             val childViewModelStoreOwner = remember {
                 object :
@@ -120,8 +121,8 @@ class SharedViewModelStoreNavEntryDecorator<T : Any>(
 
 }
 
-fun navParentKey(contentKey: Any) =
-    mapOf(SharedViewModelStoreNavEntryDecorator.PARENT_CONTENT_KEY to contentKey)
+inline fun <reified T: Destination> navParentKey() =
+    mapOf(SharedViewModelStoreNavEntryDecorator.PARENT_CONTENT_KEY to T::class.simpleName!!)
 
 private class EntryViewModel : ViewModel() {
     private val owners = mutableMapOf<String, ViewModelStore>()

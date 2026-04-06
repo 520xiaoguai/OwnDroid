@@ -75,6 +75,9 @@ fun WorkModesScreen(
     var dialog by rememberSaveable { mutableIntStateOf(0) }
     var operationSucceed by rememberSaveable { mutableStateOf(false) }
     var resultText by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(Unit) {
+        vm.getPrivilegeState()
+    }
     LaunchedEffect(privilege) {
         if (!params.canNavigateUp && privilege.device) {
             delay(1000)

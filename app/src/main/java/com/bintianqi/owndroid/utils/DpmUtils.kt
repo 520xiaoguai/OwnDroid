@@ -258,16 +258,16 @@ class PrivilegeStatus(
     val activated = device || profile
 }
 
-fun getPrivilegeStatus(ph: PrivilegeHelper): PrivilegeStatus {
-    val profile = ph.dpm.isProfileOwnerApp(ph.dar.packageName)
-    val work = profile && VERSION.SDK_INT >= 24 && ph.dpm.isManagedProfile(ph.dar)
+fun getPrivilegeStatus(dpm: DevicePolicyManager, dar: ComponentName, dhizuku: Boolean): PrivilegeStatus {
+    val profile = dpm.isProfileOwnerApp(dar.packageName)
+    val work = profile && VERSION.SDK_INT >= 24 && dpm.isManagedProfile(dar)
     return PrivilegeStatus(
-        device = ph.dpm.isDeviceOwnerApp(ph.dar.packageName),
+        device = dpm.isDeviceOwnerApp(dar.packageName),
         profile = profile,
-        dhizuku = ph.dhizuku,
+        dhizuku = dhizuku,
         work = work,
-        org = work && VERSION.SDK_INT >= 30 && ph.dpm.isOrganizationOwnedDeviceWithManagedProfile,
-        affiliated = VERSION.SDK_INT >= 28 && ph.dpm.isAffiliatedUser
+        org = work && VERSION.SDK_INT >= 30 && dpm.isOrganizationOwnedDeviceWithManagedProfile,
+        affiliated = VERSION.SDK_INT >= 28 && dpm.isAffiliatedUser
     )
 }
 

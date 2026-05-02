@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +41,7 @@ fun NetworkLoggingScreen(
     vm: NetworkLoggingViewModel, onNavigateUp: () -> Unit
 ) {
     val context = LocalContext.current
-    var enabled by remember { mutableStateOf(false) }
+    val enabled by vm.enabledState.collectAsState()
     var count by remember { mutableIntStateOf(0) }
     var dialog by rememberSaveable { mutableStateOf(false) }
     var exporting by rememberSaveable { mutableStateOf(false) }

@@ -112,18 +112,12 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_ownership_warning">%1$s privilege will be transferred to %2$s</string>
 
-    <string name="dhizuku_server">Dhizuku server</string>
     <string name="request_permission">Request permission</string>
     <string name="allow">Allow</string>
     <string name="reject">Reject</string>
 
     <!--Receiver-->
     <string name="create_work_profile_success">Create work profile success</string>
-
-    <!--Dhizuku-->
-    <string name="dhizuku" translatable="false">Dhizuku</string>
-    <string name="failed_to_init_dhizuku">Failed to initialize Dhizuku</string>
-    <string name="dhizuku_permission_not_granted">Dhizuku permission not granted</string>
 
     <string name="shizuku" translatable="false">Shizuku</string>
 
@@ -442,7 +436,6 @@
 
     <!--UserRestriction-->
     <string name="user_restriction">User restriction</string>
-    <string name="user_restriction_tip">Long press an item to create a shortcut</string>
     <string name="profile_owner_is_restricted">Profile owner can use limited function</string>
     <string name="switch_to_disable_feature">Turn on a switch to disable that function. </string>
     <string name="some_features_invalid_in_work_profile">Functions in work profile is limited. </string>

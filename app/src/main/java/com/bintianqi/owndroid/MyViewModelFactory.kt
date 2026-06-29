@@ -16,8 +16,6 @@ import com.bintianqi.owndroid.feature.network.PreferentialNetworkViewModel
 import com.bintianqi.owndroid.feature.network.WifiViewModel
 import com.bintianqi.owndroid.feature.password.PasswordViewModel
 import com.bintianqi.owndroid.feature.privilege.DelegatedAdminsViewModel
-import com.bintianqi.owndroid.feature.privilege.DhizukuServerRepository
-import com.bintianqi.owndroid.feature.privilege.DhizukuServerViewModel
 import com.bintianqi.owndroid.feature.privilege.TransferOwnershipViewModel
 import com.bintianqi.owndroid.feature.privilege.WorkingModesViewModel
 import com.bintianqi.owndroid.feature.settings.MySettings

@@ -1,7 +1,6 @@
 package com.bintianqi.owndroid.feature.privilege
 
 import android.app.admin.DevicePolicyManager
-import android.content.pm.PackageManager
 import android.os.Build.VERSION
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
@@ -19,8 +18,6 @@ import com.bintianqi.owndroid.utils.ToastChannel
 import com.bintianqi.owndroid.utils.activateOrgProfileCommand
 import com.bintianqi.owndroid.utils.getPrivilegeStatus
 import com.bintianqi.owndroid.utils.handlePrivilegeChange
-import com.rosan.dhizuku.api.Dhizuku
-import com.rosan.dhizuku.api.DhizukuRequestPermissionListener
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +29,7 @@ class WorkingModesViewModel(
 ) : ViewModel() {
 
     fun getPrivilegeState() = ph.safeDpmCall {
-        ps.value = getPrivilegeStatus(dpm, dar, ph.dhizuku)
+        ps.value = getPrivilegeStatus(dpm, dar)
     }
 
     @RequiresApi(24)
@@ -83,40 +80,6 @@ class WorkingModesViewModel(
         }
     }
 
-    @RequiresApi(28)
-    fun activateDoByDhizuku(callback: (Boolean, String?) -> Unit) = ph.safeDpmCall {
-        dpm.transferOwnership(dar, MyAdminComponent, null)
-        sr.update { it.privilege.dhizuku = false }
-        ph.dhizuku = false
-        updateStatus()
-        callback(true, null)
-    }
-
-    fun activateDhizukuMode(callback: (Boolean, String?) -> Unit) {
-        fun onSucceed() {
-            sr.update { it.privilege.dhizuku = true }
-            ph.dhizuku = true
-            updateStatus()
-            callback(true, null)
-        }
-        if (Dhizuku.init(application)) {
-            if (Dhizuku.isPermissionGranted()) {
-                onSucceed()
-            } else {
-                Dhizuku.requestPermission(object : DhizukuRequestPermissionListener() {
-                    override fun onRequestPermission(grantResult: Int) {
-                        if (grantResult == PackageManager.PERMISSION_GRANTED) onSucceed()
-                        else callback(
-                            false, application.getString(R.string.dhizuku_permission_not_granted)
-                        )
-                    }
-                })
-            }
-        } else {
-            callback(false, application.getString(R.string.failed_to_init_dhizuku))
-        }
-    }
-
     fun activateOrgProfileByShizuku(callback: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             useShizuku(application) { service ->
@@ -139,21 +102,16 @@ class WorkingModesViewModel(
     }
 
     fun deactivate() {
-        if (ps.value.dhizuku) {
-            sr.update { it.privilege.dhizuku = false }
-            ph.dhizuku = false
-        } else {
-            if (ps.value.device) {
-                ph.myDpm.clearDeviceOwnerApp(application.packageName)
-            } else if (VERSION.SDK_INT >= 24) {
-                ph.myDpm.clearProfileOwner(MyAdminComponent)
-            }
+        if (ps.value.device) {
+            ph.myDpm.clearDeviceOwnerApp(application.packageName)
+        } else if (VERSION.SDK_INT >= 24) {
+            ph.myDpm.clearProfileOwner(MyAdminComponent)
         }
         updateStatus()
     }
 
     private fun updateStatus() = ph.safeDpmCall {
-        ps.value = getPrivilegeStatus(dpm, dar, ph.dhizuku)
+        ps.value = getPrivilegeStatus(dpm, dar)
         handlePrivilegeChange(application, ps.value, ph, sr)
     }
 }

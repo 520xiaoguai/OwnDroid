@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <permission android:name="com.bintianqi.owndroid.MyPermission" />
-
-    <uses-permission android:name="com.bintianqi.owndroid.MyPermission" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
@@ -19,7 +16,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
-    <uses-sdk tools:overrideLibrary="rikka.shizuku.provider,rikka.shizuku.api,rikka.shizuku.shared,rikka.shizuku.aidl,com.rosan.dhizuku.server_api,com.rosan.dhizuku.api" />
+    <uses-sdk tools:overrideLibrary="rikka.shizuku.provider,rikka.shizuku.api,rikka.shizuku.shared,rikka.shizuku.aidl" />
     <uses-feature android:name="android.software.device_admin" />
     <application
         android:name=".MyApplication"
@@ -71,22 +68,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ShortcutsReceiverActivity"
-            android:exported="true"
-            android:permission="com.bintianqi.owndroid.MyPermission"
-            android:theme="@android:style/Theme.NoDisplay" />
-        <activity
-            android:name=".DhizukuActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <action android:name="com.bintianqi.owndroid.action.REQUEST_DHIZUKU_PERMISSION" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".activity.CheckPolicyComplianceActivity"
             android:exported="true"
             android:theme="@style/Theme.Transparent">
@@ -131,10 +112,6 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".ApiReceiver"
-            android:exported="true"></receiver>
-
         <service
             android:name=".LockTaskService"
             android:exported="false"

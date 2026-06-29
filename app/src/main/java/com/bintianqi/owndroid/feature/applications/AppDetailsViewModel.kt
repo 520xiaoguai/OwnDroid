@@ -121,6 +121,6 @@ class AppDetailsViewModel(
     }
 
     fun uninstall(callback: (String?) -> Unit) {
-        uninstallPackage(application, ph, packageName, callback)
+        uninstallPackage(application, packageName, callback)
     }
 }

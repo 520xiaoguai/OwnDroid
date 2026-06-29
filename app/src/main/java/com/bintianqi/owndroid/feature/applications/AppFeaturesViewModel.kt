@@ -129,7 +129,7 @@ class AppFeaturesViewModel(
     }
 
     fun uninstallApp(packageName: String, callback: (String?) -> Unit) {
-        uninstallPackage(application, ph, packageName, callback)
+        uninstallPackage(application, packageName, callback)
     }
 
     // Metered data disabled packages

@@ -106,17 +106,12 @@
     <string name="transfer">转移</string>
     <string name="transfer_ownership_warning">%1$s 特权将被转移至 %2$s</string>
 
-    <string name="dhizuku_server">Dhizuku服务器</string>
     <string name="request_permission">请求权限</string>
     <string name="allow">允许</string>
     <string name="reject">拒绝</string>
 
     <!--Receiver-->
     <string name="create_work_profile_success">创建工作资料成功</string>
-
-    <!--Dhizuku-->
-    <string name="failed_to_init_dhizuku">Dhizuku初始化失败</string>
-    <string name="dhizuku_permission_not_granted">Dhizuku未授权</string>
 
     <!--System-->
     <string name="system">系统</string>
@@ -408,7 +403,6 @@
 
     <!--UserRestriction-->
     <string name="user_restriction">用户限制</string>
-    <string name="user_restriction_tip">长按一个条目以创建快捷方式</string>
     <string name="profile_owner_is_restricted">Profile owner无法使用部分功能</string>
     <string name="switch_to_disable_feature">打开开关后会禁用对应的功能</string>
     <string name="some_features_invalid_in_work_profile">工作资料中部分功能无效</string>

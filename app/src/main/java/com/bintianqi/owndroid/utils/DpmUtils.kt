@@ -1,15 +1,12 @@
 package com.bintianqi.owndroid.utils
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.admin.ConnectEvent
 import android.app.admin.DevicePolicyManager
 import android.app.admin.DnsEvent
-import android.app.admin.IDevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.IPackageInstaller
 import android.content.pm.PackageInstaller
 import android.os.Binder
 import android.os.Build.VERSION
@@ -23,53 +20,9 @@ import com.bintianqi.owndroid.R
 import com.bintianqi.owndroid.feature.network.NetworkLog
 import com.bintianqi.owndroid.feature.settings.SettingsRepository
 import com.bintianqi.owndroid.feature.users.UserOperationType
-import com.rosan.dhizuku.api.Dhizuku
-import com.rosan.dhizuku.api.DhizukuBinderWrapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-@SuppressLint("PrivateApi")
-fun binderWrapperDevicePolicyManager(appContext: Context): DevicePolicyManager {
-    val context = appContext.createPackageContext(Dhizuku.getOwnerComponent().packageName, Context.CONTEXT_IGNORE_SECURITY)
-    val manager = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-    val field = manager.javaClass.getDeclaredField("mService")
-    field.isAccessible = true
-    val oldInterface = field[manager] as IDevicePolicyManager
-    if (oldInterface is DhizukuBinderWrapper) return manager
-    val oldBinder = oldInterface.asBinder()
-    val newBinder = Dhizuku.binderWrapper(oldBinder)
-    val newInterface = IDevicePolicyManager.Stub.asInterface(newBinder)
-    field[manager] = newInterface
-    return manager
-}
-
-@SuppressLint("PrivateApi")
-private fun binderWrapperPackageInstaller(appContext: Context): PackageInstaller {
-    val context = appContext.createPackageContext(Dhizuku.getOwnerComponent().packageName, Context.CONTEXT_IGNORE_SECURITY)
-    val installer = context.packageManager.packageInstaller
-    val field = installer.javaClass.getDeclaredField("mInstaller")
-    field.isAccessible = true
-    val oldInterface = field[installer] as IPackageInstaller
-    if (oldInterface is DhizukuBinderWrapper) return installer
-    val oldBinder = oldInterface.asBinder()
-    val newBinder = Dhizuku.binderWrapper(oldBinder)
-    val newInterface = IPackageInstaller.Stub.asInterface(newBinder)
-    field[installer] = newInterface
-    return installer
-}
-
-fun Context.getPackageInstaller(dhizuku: Boolean): PackageInstaller {
-    return if (dhizuku) {
-        try {
-            binderWrapperPackageInstaller(this)
-        } catch (e: Exception) {
-            throw DhizukuException(DhizukuError.Binder, e)
-        }
-    } else {
-        this.packageManager.packageInstaller
-    }
-}
 
 data class PermissionItem(
     val id: String,
@@ -205,16 +158,12 @@ fun handlePrivilegeChange(
     context: Context, ps: PrivilegeStatus, ph: PrivilegeHelper, sr: SettingsRepository
 ) {
     if (ps.activated) {
-        ShortcutUtils.setAllShortcuts(context, sr, ph, true)
-        if (!ps.dhizuku) {
-            setDefaultAffiliationID(ph, sr)
-        }
+        setDefaultAffiliationID(ph, sr)
     } else {
         sr.update {
             it.privilege.defaultAffiliationIdSet = false
             it.apiKeyHash = ""
         }
-        ShortcutUtils.setAllShortcuts(context, sr, ph, false)
     }
 }
 
@@ -250,7 +199,6 @@ const val ACTIVATE_DEVICE_OWNER_COMMAND = "dpm set-device-owner com.bintianqi.ow
 class PrivilegeStatus(
     val device: Boolean = false,
     val profile: Boolean = false,
-    val dhizuku: Boolean = false,
     val work: Boolean = false,
     val org: Boolean = false,
     val affiliated: Boolean = false
@@ -258,30 +206,14 @@ class PrivilegeStatus(
     val activated = device || profile
 }
 
-fun getPrivilegeStatus(dpm: DevicePolicyManager, dar: ComponentName, dhizuku: Boolean): PrivilegeStatus {
+fun getPrivilegeStatus(dpm: DevicePolicyManager, dar: ComponentName): PrivilegeStatus {
     val profile = dpm.isProfileOwnerApp(dar.packageName)
     val work = profile && VERSION.SDK_INT >= 24 && dpm.isManagedProfile(dar)
     return PrivilegeStatus(
         device = dpm.isDeviceOwnerApp(dar.packageName),
         profile = profile,
-        dhizuku = dhizuku,
         work = work,
         org = work && VERSION.SDK_INT >= 30 && dpm.isOrganizationOwnedDeviceWithManagedProfile,
         affiliated = VERSION.SDK_INT >= 28 && dpm.isAffiliatedUser
     )
-}
-
-class DhizukuException: Exception {
-    val reason: DhizukuError
-    constructor(r: DhizukuError) {
-        reason = r
-    }
-    constructor(r: DhizukuError, e: Throwable) {
-        reason = r
-        initCause(e)
-    }
-}
-
-enum class DhizukuError {
-    Init, Permission, Binder
 }

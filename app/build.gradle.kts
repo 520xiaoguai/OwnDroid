@@ -100,8 +100,6 @@ dependencies {
     implementation(libs.material.icons.core)
     implementation(libs.shizuku.provider)
     implementation(libs.shizuku.api)
-    implementation(libs.dhizuku.api)
-    implementation(libs.dhizuku.server.api)
     implementation(libs.androidx.fragment)
     implementation(libs.hiddenApiBypass)
     implementation(libs.libsu)

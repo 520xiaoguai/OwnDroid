@@ -107,17 +107,12 @@
     <string name="transfer">Devret</string>
     <string name="transfer_ownership_warning">%1$s yetkisi %2$s\'ye devredilecek</string>
 
-    <string name="dhizuku_server">Dhizuku Sunucusu</string>
     <string name="request_permission">İzin İste</string>
     <string name="allow">İzin Ver</string>
     <string name="reject">Reddet</string>
 
     <!--Receiver-->
     <string name="create_work_profile_success">İş Profili Başarıyla Oluşturuldu</string>
-
-    <!--Dhizuku-->
-    <string name="failed_to_init_dhizuku">Dhizuku Başlatılamadı</string>
-    <string name="dhizuku_permission_not_granted">Dhizuku İzni Verilmedi</string>
 
     <!--System-->
     <string name="system">Sistem</string>

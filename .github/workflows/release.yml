@@ -22,15 +22,40 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build APK
+      - name: Check signing secrets
+        id: check-signing
+        env:
+          KEY_BASE64: ${{ secrets.KEY_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          echo "${{ secrets.KEY_BASE64 }}" | base64 --decode - > app/release.jks
-          ./gradlew clean assembleRelease --no-build-cache --no-configuration-cache -PStoreFile="$(pwd)/app/release.jks" -PStorePassword="${{ secrets.KEYSTORE_PASSWORD }}" -PKeyPassword="${{ secrets.KEY_PASSWORD }}" -PKeyAlias="${{ secrets.KEY_ALIAS }}"
-          mv app/build/outputs/apk/release/app-release.apk OwnDroid-${{ github.ref_name }}.apk
+          if [ -n "$KEY_BASE64" ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_PASSWORD" ] && [ -n "$KEY_ALIAS" ]; then
+            echo "Signing secrets found, will build signed APK."
+            echo "HAS_SIGNING=true" >> $GITHUB_ENV
+          else
+            echo "Signing secrets not configured, only testkey APK will be built."
+            echo "HAS_SIGNING=false" >> $GITHUB_ENV
+          fi
+
+      - name: Build signed APK
+        if: ${{ env.HAS_SIGNING == 'true' }}
+        env:
+          KEY_BASE64: ${{ secrets.KEY_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          echo "${KEY_BASE64}" | base64 --decode - > app/release.jks
+          ./gradlew clean assembleRelease --no-build-cache --no-configuration-cache -PStoreFile="$(pwd)/app/release.jks" -PStorePassword="${KEYSTORE_PASSWORD}" -PKeyPassword="${KEY_PASSWORD}" -PKeyAlias="${KEY_ALIAS}"
+          mv app/build/outputs/apk/release/app-release.apk DeviceManager-${{ github.ref_name }}.apk
+
+      - name: Build testkey APK
+        run: |
           ./gradlew assembleRelease
-          mv app/build/outputs/apk/release/app-release.apk OwnDroid-${{ github.ref_name }}-testkey.apk
+          mv app/build/outputs/apk/release/app-release.apk DeviceManager-${{ github.ref_name }}-testkey.apk
 
       - name: Create release
-        run: git tag -l ${{ github.ref_name }} --format="%(contents:body)" | gh release create ${{ github.ref_name }} -t ${{ github.ref_name }} *.apk -d -F -
+        run: git tag -l ${{ github.ref_name }} --format="%(contents:body)" | gh release create ${{ github.ref_name }} -t ${{ github.ref_name }} *.apk -F -
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

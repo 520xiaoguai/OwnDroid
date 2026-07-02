@@ -2,7 +2,7 @@ name: Dependency submission
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
 
 jobs:
   dependency-submission:
@@ -20,5 +20,21 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      - name: Check if dependency graph is enabled
+        id: check-graph
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="${{ github.repository }}"
+          STATUS=$(gh api "repos/$REPO/dependency-graph/sbom" -X GET 2>&1 || true)
+          if echo "$STATUS" | grep -q "404"; then
+            echo "Dependency graph is disabled. Skipping submission."
+            echo "enabled=false" >> $GITHUB_OUTPUT
+          else
+            echo "enabled=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Generate and submit dependency graph
+        if: steps.check-graph.outputs.enabled == 'true'
         uses: gradle/actions/dependency-submission@v5
+        continue-on-error: true

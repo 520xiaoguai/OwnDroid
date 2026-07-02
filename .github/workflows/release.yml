@@ -26,11 +26,11 @@ jobs:
         run: |
           echo "${{ secrets.KEY_BASE64 }}" | base64 --decode - > app/release.jks
           ./gradlew clean assembleRelease --no-build-cache --no-configuration-cache -PStoreFile="$(pwd)/app/release.jks" -PStorePassword="${{ secrets.KEYSTORE_PASSWORD }}" -PKeyPassword="${{ secrets.KEY_PASSWORD }}" -PKeyAlias="${{ secrets.KEY_ALIAS }}"
-          mv app/build/outputs/apk/release/app-release.apk OwnDroid-${{ github.ref_name }}.apk
+          mv app/build/outputs/apk/release/app-release.apk DeviceManager-${{ github.ref_name }}.apk
           ./gradlew assembleRelease
-          mv app/build/outputs/apk/release/app-release.apk OwnDroid-${{ github.ref_name }}-testkey.apk
+          mv app/build/outputs/apk/release/app-release.apk DeviceManager-${{ github.ref_name }}-testkey.apk
 
       - name: Create release
-        run: git tag -l ${{ github.ref_name }} --format="%(contents:body)" | gh release create ${{ github.ref_name }} -t ${{ github.ref_name }} *.apk -d -F -
+        run: git tag -l ${{ github.ref_name }} --format="%(contents:body)" | gh release create ${{ github.ref_name }} -t ${{ github.ref_name }} *.apk -F -
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,16 +1,15 @@
-[English](Readme.md) | [日本語](Readme-ja.md)
+[English](Readme.md) | [繁體中文](Readme-zh_TW.md)
 
-# OwnDroid
+# 本机管理
 
 使用安卓的设备策略管理器API管理你的设备。
 
 ## 下载
 
-- [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.bintianqi.owndroid)
-- [Releases on GitHub](https://github.com/BinTianqi/OwnDroid/releases)
+- [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.localadmin.manager)
 
 > [!NOTE]
-> ColorOS用户应在GitHub上的releases下载testkey版本
+> ColorOS用户应下载testkey版本
 
 ## 功能
 
@@ -29,7 +28,7 @@
   - Shizuku
   - Dhizuku
   - Root
-  - ADB shell命令 `dpm set-device-owner com.bintianqi.owndroid/.Receiver`
+  - ADB shell命令 `dpm set-device-owner com.localadmin.manager/.Receiver`
 - [Dhizuku](https://github.com/iamr0s/Dhizuku)
 - 工作资料
 
@@ -54,7 +53,7 @@ java.lang.IllegalStateException: Not allowed to set the device owner because the
 ### Device owner 已存在
 
 ```text
-java.lang.IllegalStateException: Trying to set the device owner (com.bintianqi.owndroid/.Receiver), but device owner (xxx) is already set.
+java.lang.IllegalStateException: Trying to set the device owner (com.localadmin.manager/.Receiver), but device owner (xxx) is already set.
 ```
 
 一个设备只能存在一个device owner，请先停用已存在的device owner。
@@ -73,7 +72,7 @@ java.lang.SecurityException: Neither user 2000 nor current process has android.p
 java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 ```
 
-解决办法：使用 OwnDroid testkey 版本
+解决办法：使用 本机管理 testkey 版本
 
 testkey版本和signed版本只是签名不同，在功能上没有区别。
 
@@ -101,54 +100,14 @@ pm set-user-restriction no_add_clone_profile 0
 
 请谨慎绕过这些限制。这可能会导致一些预期之外的行为，比如你创建的用户在重启时被删除。
 
-一些系统在设置了device owner后不允许在安卓设置中创建用户，你可以在OwnDroid中创建用户。
+一些系统在设置了device owner后不允许在安卓设置中创建用户，你可以在本机管理中创建用户。
 如果你有root，你也可以在adb shell中运行以上命令以解除限制。
-
-## 高级用户
-
-### API
-
-OwnDroid提供了一个基于Intent的API。你需要在设置中设置密钥并启用API。括号中的数字是最小的安卓版本。
-
-- HIDE(package: String)
-- UNHIDE(package: String)
-- SUSPEND(package: String) (7)
-- UNSUSPEND(package: String) (7)
-- ADD_USER_RESTRICTION(restriction: Boolean)
-- CLEAR_USER_RESTRICTION(restriction: Boolean)
-- SET_PERMISSION_DEFAULT(package: String, permission: String) (6)
-- SET_PERMISSION_GRANTED(package: String, permission: String) (6)
-- SET_PERMISSION_DENIED(package: String, permission: String) (6)
-- SET_SCREEN_CAPTURE_DISABLED()
-- SET_SCREEN_CAPTURE_ENABLED()
-- SET_CAMERA_DISABLED()
-- SET_CAMERA_ENABLED()
-- SET_USB_DISABLED() (12)
-- SET_USB_ENABLED() (12)
-- LOCK()
-- REBOOT() (7)
-
-```shell
-# 一个在ADB shell中隐藏app的示例
-am broadcast -a com.bintianqi.owndroid.action.HIDE -n com.bintianqi.owndroid/.ApiReceiver --es key abcdefg --es package com.example.app
-```
-
-```kotlin
-// 一个在Kotlin中隐藏app的示例
-val intent = Intent("com.bintianqi.owndroid.action.HIDE")
-    .setComponent(ComponentName("com.bintianqi.owndroid", "com.bintianqi.owndroid.ApiReceiver"))
-    .putExtra("key", "abcdefg")
-    .putExtra("package", "com.example.app")
-context.sendBroadcast(intent)
-```
-
-[可用的用户限制](https://developer.android.google.cn/reference/android/os/UserManager#constants_1)
 
 ## 开发者
 
 ### 构建
 
-你可以在命令行中使用Gradle以构建OwnDroid
+你可以在命令行中使用Gradle以构建本机管理
 ```shell
 # 使用testkey签名（默认）
 ./gradlew build

@@ -1,0 +1,443 @@
+package com.localadmin.manager.ui
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import com.localadmin.manager.utils.HorizontalPadding
+import com.localadmin.manager.R
+import com.localadmin.manager.utils.adaptiveInsets
+import com.localadmin.manager.utils.isValidPackageName
+import com.localadmin.manager.utils.parsePackageNames
+
+@Composable
+fun FunctionItem(
+    @StringRes title: Int,
+    desc: String? = null,
+    @DrawableRes icon: Int? = null,
+    operation: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = operation)
+            .padding(start = 25.dp, end = 15.dp)
+            .padding(vertical = 12.dp + (if (desc != "") 0 else 3).dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (icon != null) Icon(
+            painterResource(icon), null,
+            Modifier
+                .padding(top = 1.dp, end = 20.dp)
+                .offset(x = (-2).dp)
+        )
+        Column {
+            Text(stringResource(title), style = typography.titleLarge)
+            if (desc != null) {
+                Text(desc, color = colorScheme.onBackground.copy(alpha = 0.8F))
+            }
+        }
+    }
+}
+
+@Composable
+fun NavIcon(onClick: () -> Unit) {
+    IconButton(onClick) {
+        Icon(Icons.AutoMirrored.Default.ArrowBack, null)
+    }
+}
+
+@Composable
+fun RadioButtonItem(
+    @StringRes text: Int,
+    selected: Boolean,
+    operation: () -> Unit
+) {
+    RadioButtonItem(stringResource(text), selected, operation)
+}
+
+@Composable
+fun RadioButtonItem(
+    text: String,
+    selected: Boolean,
+    operation: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(25))
+            .clickable(onClick = operation)
+    ) {
+        RadioButton(selected = selected, onClick = operation)
+        Text(text)
+    }
+}
+
+@Composable
+fun FullWidthRadioButtonItem(
+    text: Int,
+    selected: Boolean,
+    operation: () -> Unit
+) = FullWidthRadioButtonItem(stringResource(text), selected, operation)
+
+@Composable
+fun FullWidthRadioButtonItem(
+    text: String,
+    selected: Boolean,
+    operation: () -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable(onClick = operation),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RadioButton(
+            selected, operation, Modifier.padding(horizontal = 4.dp)
+        )
+        Text(text)
+    }
+}
+
+@Composable
+fun CheckBoxItem(
+    @StringRes text: Int,
+    checked: Boolean,
+    operation: (Boolean) -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(25))
+            .clickable { operation(!checked) },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(checked, operation)
+        Text(stringResource(text))
+    }
+}
+
+@Composable
+fun FullWidthCheckBoxItem(
+    @StringRes text: Int,
+    checked: Boolean,
+    operation: (Boolean) -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable { operation(!checked) },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(
+            checked, operation,
+            Modifier.padding(horizontal = 4.dp)
+        )
+        Text(stringResource(text))
+    }
+}
+
+@Composable
+fun SwitchItem(
+    @StringRes title: Int,
+    @DrawableRes icon: Int? = null,
+    state: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    padding: Boolean = true
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(if (padding) 25.dp else 0.dp, 5.dp, if (padding) 15.dp else 0.dp, 5.dp),
+        Arrangement.SpaceBetween, Alignment.CenterVertically
+    ) {
+        Row(Modifier.weight(1F), verticalAlignment = Alignment.CenterVertically) {
+            if (icon != null) Icon(painterResource(icon), null, Modifier.padding(end = 20.dp))
+            Text(stringResource(title), style = typography.titleLarge)
+        }
+        Switch(state, onCheckedChange, Modifier.padding(start = 10.dp))
+    }
+}
+
+@Composable
+fun SwitchItem(
+    title: Int, state: Boolean, onCheckedChange: (Boolean) -> Unit, icon: Int? = null
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(25.dp, 5.dp, 15.dp, 5.dp),
+        Arrangement.SpaceBetween, Alignment.CenterVertically
+    ) {
+        Row(Modifier.weight(1F), verticalAlignment = Alignment.CenterVertically) {
+            if (icon != null) Icon(painterResource(icon), null, Modifier.padding(end = 20.dp))
+            Text(stringResource(title), style = typography.titleLarge)
+        }
+        Switch(state, onCheckedChange, Modifier.padding(start = 10.dp))
+    }
+}
+
+@Composable
+fun InfoItem(title: Int, text: Int, withInfo: Boolean = false, onClick: () -> Unit = {}) =
+    InfoItem(title, stringResource(text), withInfo, onClick)
+
+@Composable
+fun InfoItem(title: Int, text: String, withInfo: Boolean = false, onClick: () -> Unit = {}) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .padding(start = HorizontalPadding, end = 8.dp),
+        Arrangement.SpaceBetween, Alignment.CenterVertically
+    ) {
+        Column(Modifier.weight(1F)) {
+            Text(stringResource(title), style = typography.titleLarge)
+            Text(text, Modifier.alpha(0.8F))
+        }
+        if (withInfo) IconButton(onClick) { Icon(Icons.Outlined.Info, null) }
+    }
+}
+
+@Composable
+fun ListItem(text: String, onDelete: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(15))
+            .background(colorScheme.surfaceVariant),
+        Arrangement.SpaceBetween, Alignment.CenterVertically
+    ) {
+        Text(text, Modifier.padding(start = 12.dp))
+        IconButton(onDelete) {
+            Icon(
+                painterResource(R.drawable.close_fill0), stringResource(R.string.delete)
+            )
+        }
+    }
+}
+
+@Composable
+fun Notes(@StringRes strID: Int, horizonPadding: Dp = 0.dp) {
+    Icon(
+        Icons.Outlined.Info, null,
+        Modifier
+            .padding(horizontal = horizonPadding)
+            .padding(top = 4.dp, bottom = 8.dp),
+        colorScheme.onSurfaceVariant
+    )
+    Text(
+        stringResource(strID), Modifier.padding(horizontal = horizonPadding),
+        color = colorScheme.onSurfaceVariant, style = typography.bodyMedium
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyScaffold(
+    @StringRes title: Int,
+    onNavIconClicked: () -> Unit,
+    horizonPadding: Dp = 16.dp,
+    actions: @Composable RowScope.() -> Unit = {},
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val sb = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        Modifier.nestedScroll(sb.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                { Text(stringResource(title)) },
+                navigationIcon = { NavIcon(onNavIconClicked) },
+                actions = actions,
+                scrollBehavior = sb
+            )
+        },
+        contentWindowInsets = adaptiveInsets()
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = horizonPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 80.dp)
+        ) {
+            content()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyLazyScaffold(
+    @StringRes title: Int,
+    onNavIconClicked: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+    content: LazyListScope.() -> Unit
+) {
+    val sb = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        Modifier.nestedScroll(sb.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                { Text(stringResource(title)) },
+                navigationIcon = { NavIcon(onNavIconClicked) },
+                actions = actions,
+                scrollBehavior = sb
+            )
+        },
+        contentWindowInsets = adaptiveInsets()
+    ) { paddingValues ->
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            content = content
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MySmallTitleScaffold(
+    @StringRes title: Int,
+    onNavIconClicked: () -> Unit,
+    horizonPadding: Dp = 16.dp,
+    actions: @Composable RowScope.() -> Unit = {},
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                { Text(stringResource(title)) },
+                navigationIcon = { NavIcon(onNavIconClicked) },
+                actions = actions
+            )
+        },
+        contentWindowInsets = adaptiveInsets()
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = horizonPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 80.dp)
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun ErrorDialog(message: String?, onDismiss: () -> Unit) {
+    if (!message.isNullOrEmpty()) AlertDialog(
+        title = { Text(stringResource(R.string.error)) },
+        text = { Text(message) },
+        confirmButton = {
+            TextButton(onDismiss) { Text(stringResource(R.string.confirm)) }
+        },
+        onDismissRequest = onDismiss
+    )
+}
+
+@Composable
+fun CircularProgressDialog(onDismiss: () -> Unit) {
+    Dialog(onDismiss) {
+        Card {
+            CircularProgressIndicator(Modifier.padding(16.dp))
+        }
+    }
+}
+
+@Composable
+fun PackageNameTextField(
+    value: String, onChoosePackage: () -> Unit,
+    modifier: Modifier = Modifier, onValueChange: (String) -> Unit
+) {
+    val fm = LocalFocusManager.current
+    OutlinedTextField(
+        value, onValueChange,
+        Modifier
+            .fillMaxWidth()
+            .then(modifier),
+        label = { Text(stringResource(R.string.package_name)) },
+        trailingIcon = {
+            IconButton(onChoosePackage) {
+                Icon(Icons.AutoMirrored.Default.List, null)
+            }
+        },
+        isError = !parsePackageNames(value).all { it.isValidPackageName },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Ascii, imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions { fm.clearFocus() }
+    )
+}
+
+@Composable
+fun MasterSwitch(label: Int, state: Boolean, onStateChange: (Boolean) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(20.dp, 10.dp)
+            .background(colorScheme.primaryContainer, RoundedCornerShape(25.dp))
+            .padding(20.dp, 10.dp),
+        Arrangement.SpaceBetween, Alignment.CenterVertically
+    ) {
+        Text(stringResource(label), style = typography.titleLarge)
+        Switch(state, onStateChange)
+    }
+}

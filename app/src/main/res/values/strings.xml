@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--Global-->
-    <string name="app_name" translatable="false">OwnDroid</string>
+    <string name="app_name" translatable="false">Device Manager</string>
     <string name="place_holder" translatable="false"/>
     <string name="disabled">Disabled</string>
     <string name="enabled">Enabled</string>
@@ -63,7 +63,6 @@
     <string name="alias">Alias</string>
     <string name="unknown_error">Unknown error</string>
     <string name="permission_denied">Permission denied</string>
-    <string name="api" translatable="false">API</string>
     <string name="error">Error</string>
     <string name="status">Status</string>
     <string name="edit">Edit</string>
@@ -632,9 +631,21 @@
     <string name="unlock">Unlock</string>
     <string name="security">Security</string>
     <string name="clear_storage">Clear storage</string>
-    
-    <string name="api_key">API key</string>
-    <string name="api_key_exist">The API key already exists, setting a new key will overwrite the current key.</string>
+    <string name="setup_password">Set up password</string>
+    <string name="setup_password_intro">Please set up an app password before first use. This password is required each time you open the app.</string>
+    <string name="security_question">Security question</string>
+    <string name="security_question_hint">Used to recover the password if you forget it</string>
+    <string name="security_answer">Answer</string>
+    <string name="confirm_answer">Confirm answer</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="answer_security_question">Answer the security question to reset the password</string>
+    <string name="security_answer_incorrect">Incorrect answer</string>
+    <string name="password_set_success">Password set successfully</string>
+    <string name="passwords_not_match">Passwords do not match</string>
+    <string name="answers_not_match">Answers do not match</string>
+    <string name="security_question_empty">Please enter a security question</string>
+    <string name="reset_via_security_question">Reset password</string>
+    <string name="modify_security_question">Modify security question</string>
 
     <!--AndroidPermission-->
     <string name="permission_POST_NOTIFICATIONS">Post notifications</string>

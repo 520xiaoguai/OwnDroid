@@ -3,7 +3,7 @@ name: CI build
 on:
   workflow_dispatch:
   push:
-    branches: [ "dev" ]
+    branches: [ "master", "dev" ]
     paths-ignore:
       - '**.md'
     tags-ignore:

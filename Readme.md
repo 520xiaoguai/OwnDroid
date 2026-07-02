@@ -1,16 +1,15 @@
-[简体中文](Readme-zh_CN.md) | [日本語](Readme-ja.md)
+[简体中文](Readme-zh_CN.md) | [繁體中文](Readme-zh_TW.md)
 
-# OwnDroid
+# Device Manager
 
 Use Android's DevicePolicyManager API to manage your device.
 
 ## Download
 
-- [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.bintianqi.owndroid)
-- [Releases on GitHub](https://github.com/BinTianqi/OwnDroid/releases)
+- [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.localadmin.manager)
 
 > [!NOTE]
-> ColorOS users should download testkey version from releases on GitHub
+> ColorOS users should download testkey version
 
 ## Features
 
@@ -29,7 +28,7 @@ Use Android's DevicePolicyManager API to manage your device.
   - Shizuku
   - Dhizuku
   - Root
-  - ADB shell command `dpm set-device-owner com.bintianqi.owndroid/.Receiver`
+  - ADB shell command `dpm set-device-owner com.localadmin.manager/.Receiver`
 - [Dhizuku](https://github.com/iamr0s/Dhizuku)
 - Work profile
 
@@ -54,7 +53,7 @@ Solution: Delete secondary users, including work profile, private space and app 
 ### Device owner is already set
 
 ```text
-java.lang.IllegalStateException: Trying to set the device owner (com.bintianqi.owndroid/.Receiver), but device owner (xxx) is already set.
+java.lang.IllegalStateException: Trying to set the device owner (com.localadmin.manager/.Receiver), but device owner (xxx) is already set.
 ```
 
 Only one device owner can exist on a device. Please deactivate the existing device owner first.
@@ -75,7 +74,7 @@ Solutions:
 java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 ```
 
-Solution: Use OwnDroid testkey version
+Solution: Use Device Manager testkey version
 
 The testkey and signed versions differ only in their signatures. There is no functional difference between them.
 
@@ -104,53 +103,13 @@ pm set-user-restriction no_add_clone_profile 0
 You should bypass the restrictions at your own risk. It may cause unexpected behavior, for example, the system may delete the user you created silently during reboot.
 
 Some systems disable the feature of adding users in Android settings once a device owner is set.
-You have to create users in OwnDroid. Or if you have root, run the above command in adb shell to remove that restriction.
-
-## For advanced users
-
-### API
-
-OwnDroid provides an Intent-based API. You need to set the API key in settings and enable the API. The numbers in brackets represent the minimum Android version required.
-
-- HIDE(package: String)
-- UNHIDE(package: String)
-- SUSPEND(package: String) (7)
-- UNSUSPEND(package: String) (7)
-- ADD_USER_RESTRICTION(restriction: Boolean)
-- CLEAR_USER_RESTRICTION(restriction: Boolean)
-- SET_PERMISSION_DEFAULT(package: String, permission: String) (6)
-- SET_PERMISSION_GRANTED(package: String, permission: String) (6)
-- SET_PERMISSION_DENIED(package: String, permission: String) (6)
-- SET_SCREEN_CAPTURE_DISABLED()
-- SET_SCREEN_CAPTURE_ENABLED()
-- SET_CAMERA_DISABLED()
-- SET_CAMERA_ENABLED()
-- SET_USB_DISABLED() (12)
-- SET_USB_ENABLED() (12)
-- LOCK()
-- REBOOT() (7)
-
-```shell
-# An example of hiding app in ADB shell
-am broadcast -a com.bintianqi.owndroid.action.HIDE -n com.bintianqi.owndroid/.ApiReceiver --es key abcdefg --es package com.example.app
-```
-
-```kotlin
-// An example of hiding app in Kotlin
-val intent = Intent("com.bintianqi.owndroid.action.HIDE")
-    .setComponent(ComponentName("com.bintianqi.owndroid", "com.bintianqi.owndroid.ApiReceiver"))
-    .putExtra("key", "abcdefg")
-    .putExtra("package", "com.example.app")
-context.sendBroadcast(intent)
-```
-
-[Available user restrictions](https://developer.android.com/reference/android/os/UserManager#constants_1)
+You have to create users in Device Manager. Or if you have root, run the above command in adb shell to remove that restriction.
 
 ## For developers
 
 ### Build
 
-You can use Gradle in command line to build OwnDroid.
+You can use Gradle in command line to build Device Manager.
 ```shell
 # Use testkey for signing (default)
 ./gradlew build

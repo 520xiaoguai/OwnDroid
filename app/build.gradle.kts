@@ -15,14 +15,14 @@ android {
             keyAlias = (project.findProperty("KeyAlias") as String?) ?: "testkey"
         }
     }
-    namespace = "com.bintianqi.owndroid"
+    namespace = "com.localadmin.manager"
     compileSdk = 36
 
     lint.checkReleaseBuilds = false
     lint.disable += "All"
 
     defaultConfig {
-        applicationId = "com.bintianqi.owndroid"
+        applicationId = "com.localadmin.manager"
         minSdk = 23
         targetSdk = 36
         versionCode = 45

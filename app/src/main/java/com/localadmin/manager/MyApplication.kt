@@ -1,0 +1,32 @@
+package com.localadmin.manager
+
+import android.app.Application
+import android.os.Build.VERSION
+import com.localadmin.manager.utils.DhizukuException
+import com.localadmin.manager.utils.NotificationUtils
+import com.localadmin.manager.utils.getPrivilegeStatus
+import org.lsposed.hiddenapibypass.HiddenApiBypass
+
+class MyApplication : Application() {
+    lateinit var container: AppContainer
+
+    override fun onCreate() {
+        super.onCreate()
+        if (VERSION.SDK_INT >= 28) HiddenApiBypass.setHiddenApiExemptions("")
+        container = AppContainer(this)
+        val ph = container.privilegeHelper
+        val ps = container.privilegeState
+        try {
+            ps.value = getPrivilegeStatus(ph.dpm, ph.dar, ph.dhizuku)
+        } catch (e: DhizukuException) {
+            ps.value = getPrivilegeStatus(ph.myDpm, ph.myDar, false)
+            if (ps.value.activated) { // Device owner transferred from Dhizuku
+                container.settingsRepo.update { it.privilege.dhizuku = false }
+                ph.dhizuku = false
+            } else {
+                container.dhizukuErrorState.value = e.reason
+            }
+        }
+        NotificationUtils.createChannels(this)
+    }
+}

@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--Global-->
+    <string name="app_name">本机管理</string>
     <string name="disabled">禁用</string>
     <string name="enabled">启用</string>
     <string name="disable">禁用</string>
@@ -596,9 +597,21 @@
     <string name="unlock">解锁</string>
     <string name="security">安全性</string>
     <string name="clear_storage">清除存储空间</string>
-
-    <string name="api_key">API密钥</string>
-    <string name="api_key_exist">API密钥已存在，设置新的密钥将会覆盖当前密钥</string>
+    <string name="setup_password">设置密码</string>
+    <string name="setup_password_intro">首次使用前请设置应用密码。每次打开应用时都需要输入此密码。</string>
+    <string name="security_question">安全问题</string>
+    <string name="security_question_hint">用于忘记密码时找回密码</string>
+    <string name="security_answer">答案</string>
+    <string name="confirm_answer">确认答案</string>
+    <string name="forgot_password">忘记密码？</string>
+    <string name="answer_security_question">回答安全问题以重置密码</string>
+    <string name="security_answer_incorrect">答案错误</string>
+    <string name="password_set_success">密码设置成功</string>
+    <string name="passwords_not_match">两次输入的密码不一致</string>
+    <string name="answers_not_match">两次输入的答案不一致</string>
+    <string name="security_question_empty">请输入安全问题</string>
+    <string name="reset_via_security_question">重置密码</string>
+    <string name="modify_security_question">修改安全问题</string>
 
     <!--AndroidPermission-->
     <string name="permission_POST_NOTIFICATIONS">发送通知</string>

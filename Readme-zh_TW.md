@@ -7,9 +7,10 @@
 ## 下載
 
 - [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.localadmin.manager)
+- [GitHub Releases](https://github.com/520xiaoguai/OwnDroid/releases)
 
 > [!NOTE]
-> ColorOS使用者應下載testkey版本
+> CI 建構和 Releases 提供的是未簽章 APK，請先在本地簽章後再安裝。
 
 ## 功能
 
@@ -72,9 +73,7 @@ java.lang.SecurityException: Neither user 2000 nor current process has android.p
 java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 ```
 
-解決辦法：使用 本機管理 testkey 版本
-
-testkey版本和signed版本只是簽章不同，在功能上沒有區別。
+解決辦法：使用與裝置匹配的平台金鑰簽章 APK，或透過 root shell 啟用 Device Owner。
 
 ### 三星
 
@@ -107,14 +106,13 @@ pm set-user-restriction no_add_clone_profile 0
 
 ### 建構
 
-你可以在命令列中使用Gradle以建構本機管理
+你可以在命令列中使用Gradle以建構本機管理。建構產物為未簽章 APK，請在本地用自己的金鑰簽章後再安裝。
 ```shell
-# 使用testkey簽章（預設）
-./gradlew build
-# 使用你的jks密鑰簽章
-./gradlew build -PStoreFile="/path/to/your/jks/file" -PStorePassword="YOUR_KEYSTORE_PASSWORD" -PKeyPassword="YOUR_KEY_PASSWORD" -PKeyAlias="YOUR_KEY_ALIAS"
+./gradlew assembleRelease
 ```
 （在Windows系統中應使用`./gradlew.bat`)
+
+未簽章 APK 路徑：`app/build/outputs/apk/release/app-release-unsigned.apk`
 
 ### 貢獻
 

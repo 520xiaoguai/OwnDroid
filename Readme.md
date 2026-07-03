@@ -7,9 +7,10 @@ Use Android's DevicePolicyManager API to manage your device.
 ## Download
 
 - [IzzyOnDroid F-Droid Repository](https://apt.izzysoft.de/fdroid/index/apk/com.localadmin.manager)
+- [GitHub Releases](https://github.com/520xiaoguai/OwnDroid/releases)
 
 > [!NOTE]
-> ColorOS users should download testkey version
+> CI builds and Releases provide unsigned APKs. Sign the APK locally before installing.
 
 ## Features
 
@@ -74,9 +75,7 @@ Solutions:
 java.lang.IllegalStateException: Unexpected @ProvisioningPreCondition
 ```
 
-Solution: Use Device Manager testkey version
-
-The testkey and signed versions differ only in their signatures. There is no functional difference between them.
+Solution: Sign the APK with a platform key matching your device, or activate Device Owner via root shell.
 
 ### Samsung
 
@@ -109,14 +108,13 @@ You have to create users in Device Manager. Or if you have root, run the above c
 
 ### Build
 
-You can use Gradle in command line to build Device Manager.
+You can use Gradle in command line to build Device Manager. The build produces an unsigned APK; sign it locally with your own keystore before installing.
 ```shell
-# Use testkey for signing (default)
-./gradlew build
-# Use your custom .jks key for signing
-./gradlew build -PStoreFile="/path/to/your/jks/file" -PStorePassword="YOUR_KEYSTORE_PASSWORD" -PKeyPassword="YOUR_KEY_PASSWORD" -PKeyAlias="YOUR_KEY_ALIAS"
+./gradlew assembleRelease
 ```
 (Use `./gradlew.bat` instead on Windows)
+
+The unsigned APK is located at `app/build/outputs/apk/release/app-release-unsigned.apk`.
 
 ### Contribute
 

@@ -624,7 +624,6 @@
     <string name="password_set_success">Password set successfully</string>
     <string name="passwords_not_match">Passwords do not match</string>
     <string name="answers_not_match">Answers do not match</string>
-    <string name="security_question_empty">Please enter a security question</string>
     <string name="reset_via_security_question">Reset password</string>
     <string name="modify_security_question">Modify security question</string>
 

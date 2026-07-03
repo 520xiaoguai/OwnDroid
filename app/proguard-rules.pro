@@ -24,3 +24,8 @@
 -dontwarn android.app.ActivityThread
 -dontwarn android.app.ContextImpl
 -dontwarn android.app.LoadedApk
+
+# Keep classes instantiated via reflection by Shizuku/Dhizuku
+-keep class com.localadmin.manager.ShizukuService { *; }
+-keep class com.localadmin.manager.MyDhizukuProvider { *; }
+-keep class com.localadmin.manager.MyDhizukuService { *; }

@@ -609,7 +609,6 @@
     <string name="password_set_success">密码设置成功</string>
     <string name="passwords_not_match">两次输入的密码不一致</string>
     <string name="answers_not_match">两次输入的答案不一致</string>
-    <string name="security_question_empty">请输入安全问题</string>
     <string name="reset_via_security_question">重置密码</string>
     <string name="modify_security_question">修改安全问题</string>
 

@@ -156,7 +156,12 @@ class DhizukuActivity : ComponentActivity() {
                     },
                     onDismissRequest = { close(false) }
                 )
-                else AppLockDialog(settingsRepo.data.appLock, { close(true) }) { close(false) }
+                else AppLockDialog(
+                    settingsRepo.data.appLock,
+                    onSucceed = { close(true) },
+                    onDismiss = { close(false) },
+                    onForgotPassword = { close(false) }
+                )
             }
         }
     }

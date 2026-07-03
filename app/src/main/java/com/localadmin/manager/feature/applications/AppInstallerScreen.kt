@@ -125,10 +125,15 @@ fun AppInstaller(
         ResultDialog(uiState.result, vm::closeResultDialog)
     }
     if (appLockDialog) {
-        AppLockDialog(vm.getAppLockConfig(), {
-            appLockDialog = false
-            vm.startInstall(options)
-        }) { appLockDialog = false }
+        AppLockDialog(
+            vm.getAppLockConfig(),
+            onSucceed = {
+                appLockDialog = false
+                vm.startInstall(options)
+            },
+            onDismiss = { appLockDialog = false },
+            onForgotPassword = { appLockDialog = false }
+        )
     }
 }
 

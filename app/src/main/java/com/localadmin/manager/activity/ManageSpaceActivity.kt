@@ -35,7 +35,12 @@ class ManageSpaceActivity: FragmentActivity() {
                     mutableStateOf(settingsRepo.data.appLock.passwordHash.isNotEmpty())
                 }
                 if (appLockDialog) {
-                    AppLockDialog(settingsRepo.data.appLock, { appLockDialog = false }, ::finish)
+                    AppLockDialog(
+                        settingsRepo.data.appLock,
+                        onSucceed = { appLockDialog = false },
+                        onDismiss = ::finish,
+                        onForgotPassword = ::finish
+                    )
                 } else {
                     AlertDialog(
                         text = {

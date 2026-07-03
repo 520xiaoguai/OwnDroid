@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import com.localadmin.manager.MyApplication
+import com.localadmin.manager.R
 import com.localadmin.manager.PrivilegeHelper
 import com.localadmin.manager.utils.NotificationType
 import com.localadmin.manager.utils.PrivilegeStatus

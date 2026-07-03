@@ -1,8 +1,11 @@
 name: Dependency submission
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master", "dev" ]
+    paths-ignore:
+      - '**.md'
 
 jobs:
   dependency-submission:

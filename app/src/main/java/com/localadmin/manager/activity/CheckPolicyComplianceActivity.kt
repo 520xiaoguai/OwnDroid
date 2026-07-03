@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.localadmin.manager.MyApplication
 import com.localadmin.manager.R
-import com.localadmin.manager.ui.theme.OwnDroidTheme
+import com.localadmin.manager.ui.theme.DeviceManagerTheme
 
 class CheckPolicyComplianceActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class CheckPolicyComplianceActivity: ComponentActivity() {
         val myApp = application as MyApplication
         setContent {
             val theme by myApp.container.themeState.collectAsState()
-            OwnDroidTheme(theme) {
+            DeviceManagerTheme(theme) {
                 AlertDialog(
                     text = {
                         Text(stringResource(R.string.info_personal_apps_suspended))

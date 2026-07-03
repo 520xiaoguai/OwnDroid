@@ -164,7 +164,7 @@ fun retrieveSecurityLogs(app: MyApplication) {
 fun setDefaultAffiliationID(ph: PrivilegeHelper, sr: SettingsRepository) {
     if (VERSION.SDK_INT >= 26 && !sr.data.privilege.defaultAffiliationIdSet) {
         try {
-            ph.dpm.setAffiliationIds(ph.dar, setOf("OwnDroid_default_affiliation_id"))
+            ph.dpm.setAffiliationIds(ph.dar, setOf("DeviceManager_default_affiliation_id"))
             sr.update { it.privilege.defaultAffiliationIdSet = true }
             Log.d("DPM", "Default affiliation id set")
         } catch (e: Exception) {

@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.localadmin.manager.MyApplication
 import com.localadmin.manager.R
 import com.localadmin.manager.ui.screen.AppLockDialog
-import com.localadmin.manager.ui.theme.OwnDroidTheme
+import com.localadmin.manager.ui.theme.DeviceManagerTheme
 import com.localadmin.manager.utils.showOperationResultToast
 import kotlin.system.exitProcess
 
@@ -30,7 +30,7 @@ class ManageSpaceActivity: FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val theme by myApp.container.themeState.collectAsStateWithLifecycle()
-            OwnDroidTheme(theme) {
+            DeviceManagerTheme(theme) {
                 var appLockDialog by remember {
                     mutableStateOf(settingsRepo.data.appLock.passwordHash.isNotEmpty())
                 }

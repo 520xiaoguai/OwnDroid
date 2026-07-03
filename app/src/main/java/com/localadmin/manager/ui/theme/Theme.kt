@@ -93,7 +93,7 @@ private val darkScheme = darkColorScheme(
 )
 
 @Composable
-fun OwnDroidTheme(
+fun DeviceManagerTheme(
     theme: MySettings.Theme,
     content: @Composable () -> Unit
 ) {

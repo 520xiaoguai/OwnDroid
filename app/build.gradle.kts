@@ -7,14 +7,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        create("defaultSignature") {
-            storeFile = file(project.findProperty("StoreFile") ?: "testkey.jks")
-            storePassword = (project.findProperty("StorePassword") as String?) ?: "testkey"
-            keyPassword = (project.findProperty("KeyPassword") as String?) ?: "testkey"
-            keyAlias = (project.findProperty("KeyAlias") as String?) ?: "testkey"
-        }
-    }
     namespace = "com.localadmin.manager"
     compileSdk = 36
 
@@ -25,8 +17,8 @@ android {
         applicationId = "com.localadmin.manager"
         minSdk = 23
         targetSdk = 36
-        versionCode = 45
-        versionName = "8.2"
+        versionCode = 1
+        versionName = "1.0.0"
         multiDexEnabled = false
     }
 
@@ -38,14 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("defaultSignature")
-        }
-        debug {
-            signingConfig = signingConfigs.getByName("defaultSignature")
-        }
-        create("fastDebug") {
-            initWith(getByName("debug"))
-            isDebuggable = false
         }
     }
     compileOptions {

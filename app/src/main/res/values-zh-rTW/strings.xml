@@ -696,12 +696,12 @@
     <string name="info_evict_credential_encryption_key">從密鑰環中移除使用者的憑證加密密鑰。使用者需要再次輸入憑證才能將密鑰儲存回密鑰環中。為了保護使用者資料，使用者將重新啟動</string>
     <string name="info_reboot">打電話時不能使用此功能</string>
     <string name="info_content_protection_policy">內容保護策略控制對欺騙性應用程式的掃描。</string>
-    <string name="info_permission_policy">設定應用申請執行時權限時的預設選擇。只有OwnDroid能修改被此策略允許或拒絕的權限。</string>
+    <string name="info_permission_policy">設定應用申請執行時權限時的預設選擇。只有本機管理能修改被此策略允許或拒絕的權限。</string>
     <string name="info_mte_policy">設定記憶體標記擴展(Memory Tagging Extension)策略。重新開機裝置以套用變更。</string>
     <string name="info_nearby_app_streaming_policy">應用串流：當app在虛擬顯示器上啟動，傳輸這個app的視訊串流到附近的裝置。</string>
     <string name="info_nearby_notification_streaming_policy">通知串流：預安裝的應用把通知資料傳輸到附近的裝置。</string>
     <string name="info_lock_task_packages">只有在列表中的應用才能開啟鎖定任務模式。</string>
-    <string name="info_start_lock_task_mode">如果你在鎖定任務功能中允許了通知，成功啟動鎖定任務模式後，OwnDroid會發送一條通知，你可以點擊那條通知以退出鎖定任務模式。</string>
+    <string name="info_start_lock_task_mode">如果你在鎖定任務功能中允許了通知，成功啟動鎖定任務模式後，本機管理會發送一條通知，你可以點擊那條通知以退出鎖定任務模式。</string>
     <string name="info_security_log">裝置上不能有非附屬使用者</string>
     <string name="info_pre_reboot_security_log">並非所有裝置都支援重新開機前安全日誌</string>
     <string name="info_disable_account_management">當某個帳戶類型的帳戶管理被停用時，將無法新增或刪除該類型的帳戶。</string>
@@ -720,7 +720,7 @@
     <string name="info_install_existing_app">安裝一個已經在其他使用者中安裝或在解除安裝後保留的app。</string>
     <string name="info_enable_system_app">重新啟用一個在使用者初始化時預設被停用的系統app</string>
     <string name="info_headless_system_user_mode">無頭系統使用者模式意味著系統使用者執行系統服務和一些系統UI，但它不與任何真實的人相關聯，必須建立額外的使用者才能與真實的人相關聯。</string>
-    <string name="info_logout">如果當前使用者不是由OwnDroid切換的，無法使用此功能。</string>
+    <string name="info_logout">如果當前使用者不是由本機管理切換的，無法使用此功能。</string>
     <string name="info_affiliation_id">當Device owner建立並管理使用者時，新的使用者不是附屬使用者。Device owner設定和受管理使用者完全相同的附屬使用者ID後，受管理使用者成為附屬於Device owner的使用者</string>
     <string name="info_password_complexity">無：無密碼\n低：圖案，PIN（有重複或有序序列）\n中：PIN（沒有重複或有序序列，最低長度4），字母（最低長度4），字母與數字（最低長度4）\n高：PIN（沒有重複或有序序列，最低長度8），字母（最低長度6），字母與數字（最低長度6）</string>
     <string name="info_reset_password">設定一個新的密碼，密碼的長度需要4位或以上，不輸入密碼將會清除現有的密碼。長度在6位或以下的純數字密碼將會設定為PIN碼。</string>
@@ -729,13 +729,13 @@
     <string name="info_max_failed_password_system_user">如果設定為大於零的值，將會在輸入一定次數的錯誤的鎖定螢幕密碼後將裝置恢復原廠設定</string>
     <string name="info_max_failed_password_other_user">如果設定為大於零的值，將會在輸入一定次數的錯誤的鎖定螢幕密碼後清除當前使用者的所有資料</string>
     <string name="info_password_history_length">設定後，使用者將無法輸入與歷史記錄中任何密碼相同的新密碼。當前密碼將保留，直到使用者設定新密碼為止，因此變更不會立即生效。值為0表示不做限制。</string>
-    <string name="info_required_strong_auth_timeout">如果使用者在這段時間內沒有使用強認證（密碼、PIN或圖案）解鎖裝置，則要求使用強認證解鎖裝置。值為0表示OwnDroid不參與控制逾時。一般來說，最少1小時，最多72小時。</string>
-    <string name="info_deactivate">OwnDroid將會丟失特權</string>
-    <string name="info_personal_apps_suspended">你的個人應用被OwnDroid暫停</string>
+    <string name="info_required_strong_auth_timeout">如果使用者在這段時間內沒有使用強認證（密碼、PIN或圖案）解鎖裝置，則要求使用強認證解鎖裝置。值為0表示本機管理不參與控制逾時。一般來說，最少1小時，最多72小時。</string>
+    <string name="info_deactivate">本機管理將會丟失特權</string>
+    <string name="info_personal_apps_suspended">你的個人應用被本機管理暫停</string>
 
     <string name="choose_working_mode">選擇一個工作模式</string>
     <string name="recommended">推薦</string>
     <string name="activate_method">啟用方法</string>
     <string name="adb_command">ADB命令</string>
-    <string name="owndroid_warning">此應用使用Device owner或Profile owner特權。這些特權十分危險，請謹慎使用。如果操作不當，可能會造成嚴重損失。開發者將不會對此負責。</string>
+    <string name="device_manager_warning">此應用使用Device owner或Profile owner特權。這些特權十分危險，請謹慎使用。如果操作不當，可能會造成嚴重損失。開發者將不會對此負責。</string>
 </resources>

@@ -43,7 +43,7 @@ import com.localadmin.manager.ui.navigation.myEntryProvider
 import com.localadmin.manager.ui.navigation.rememberSharedViewModelStoreNavEntryDecorator
 import com.localadmin.manager.ui.screen.AppLockDialog
 import com.localadmin.manager.ui.screen.ForgotPasswordDialog
-import com.localadmin.manager.ui.theme.OwnDroidTheme
+import com.localadmin.manager.ui.theme.DeviceManagerTheme
 import com.localadmin.manager.utils.DhizukuError
 import com.localadmin.manager.utils.hash
 import com.localadmin.manager.utils.popToast
@@ -99,7 +99,7 @@ class MainActivity : FragmentActivity() {
             var appLockDialog by rememberSaveable { mutableStateOf(false) }
             var showForgotPassword by rememberSaveable { mutableStateOf(false) }
             val theme by myApp.container.themeState.collectAsState()
-            OwnDroidTheme(theme) {
+            DeviceManagerTheme(theme) {
                 Box(
                     Modifier
                         .fillMaxSize()

@@ -222,7 +222,7 @@ fun WorkModesScreen(
                         style = typography.labelLarge
                     )
                 }
-                Text(stringResource(R.string.owndroid_warning))
+                Text(stringResource(R.string.device_manager_warning))
             }
         }
         if (dialog == 1) AlertDialog(

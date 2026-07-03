@@ -1,4 +1,4 @@
-OwnDroid is a DPC (device policy controller) app.
+Device Manager is a DPC (device policy controller) app for enterprise Android device management.
 
 It supports the following working modes:
 

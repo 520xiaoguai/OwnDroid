@@ -84,7 +84,7 @@ fun AppGroupsScreen(
                             DropdownMenuItem(
                                 { Text(stringResource(R.string.export)) },
                                 {
-                                    exportLauncher.launch("owndroid_app_groups")
+                                    exportLauncher.launch("devicemanager_app_groups")
                                     dropdown = false
                                 },
                                 leadingIcon = {

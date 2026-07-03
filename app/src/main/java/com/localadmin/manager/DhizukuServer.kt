@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.localadmin.manager.feature.privilege.DhizukuClientInfo
 import com.localadmin.manager.ui.screen.AppLockDialog
-import com.localadmin.manager.ui.theme.OwnDroidTheme
+import com.localadmin.manager.ui.theme.DeviceManagerTheme
 import com.localadmin.manager.utils.MyAdminComponent
 import com.localadmin.manager.utils.getPackageSignature
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -117,7 +117,7 @@ class DhizukuActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var appLockDialog by rememberSaveable { mutableStateOf(false) }
-            OwnDroidTheme(settingsRepo.data.theme) {
+            DeviceManagerTheme(settingsRepo.data.theme) {
                 if (!appLockDialog) AlertDialog(
                     icon = {
                         Image(rememberDrawablePainter(icon), null, Modifier.size(35.dp))

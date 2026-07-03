@@ -88,7 +88,7 @@ fun SettingsScreen(
                             val time =
                                 SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
                                     .format(Date(System.currentTimeMillis()))
-                            exportLogsLauncher.launch("owndroid_log_$time")
+                            exportLogsLauncher.launch("devicemanager_log_$time")
                         },
                         leadingIcon = {
                             Icon(painterResource(R.drawable.description_fill0), null)
@@ -312,7 +312,7 @@ fun AboutScreen(onNavigateUp: () -> Unit) {
         Spacer(Modifier.padding(vertical = 5.dp))
         FunctionItem(R.string.project_homepage, "GitHub", R.drawable.open_in_new) {
             shareLink(
-                context, "https://github.com/BinTianqi/OwnDroid"
+                context, "https://github.com/520xiaoguai/OwnDroid"
             )
         }
     }

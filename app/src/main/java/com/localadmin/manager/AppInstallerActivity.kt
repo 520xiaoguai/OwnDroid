@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.fragment.app.FragmentActivity
 import com.localadmin.manager.feature.applications.AppInstaller
 import com.localadmin.manager.feature.applications.AppInstallerViewModel
-import com.localadmin.manager.ui.theme.OwnDroidTheme
+import com.localadmin.manager.ui.theme.DeviceManagerTheme
 import com.localadmin.manager.utils.viewModelFactory
 
 class AppInstallerActivity : FragmentActivity() {
@@ -26,7 +26,7 @@ class AppInstallerActivity : FragmentActivity() {
         val themeState = myApp.container.themeState
         setContent {
             val theme by themeState.collectAsState()
-            OwnDroidTheme(theme) {
+            DeviceManagerTheme(theme) {
                 AppInstaller(vm)
             }
         }

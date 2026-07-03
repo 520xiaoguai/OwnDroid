@@ -86,7 +86,7 @@ fun PreferentialNetworkServiceScreen(
                     DropdownMenuItem(
                         { Text(stringResource(R.string.export)) },
                         {
-                            exportLauncher.launch("OwnDroid-preferential-network-config")
+                            exportLauncher.launch("devicemanager_preferential_network_config")
                             menu = false
                         },
                         leadingIcon = {

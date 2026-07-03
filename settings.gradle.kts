@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OwnDroid"
+rootProject.name = "DeviceManager"
 include(":app")
  

@@ -122,7 +122,7 @@ fun CrossProfileIntentFilterScreen(
                     DropdownMenuItem(
                         { Text(stringResource(R.string.export)) },
                         {
-                            exportLauncher.launch("owndroid_intent_filters")
+                            exportLauncher.launch("devicemanager_intent_filters")
                             menu = false
                         },
                         leadingIcon = {
